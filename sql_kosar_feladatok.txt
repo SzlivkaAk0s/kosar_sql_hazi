@@ -1,0 +1,19 @@
+-- 1. a, feladat --
+
+SELECT vevo.nev, SUM(rendeles.db) AS vasarolt_db FROM rendeles INNER JOIN vevo ON rendeles.vevo_id = vevo.id INNER JOIN termek ON rendeles.termek_id = termek.id WHERE termek.nev = 'Fogkefe' GROUP BY vevo.id, vevo.nev ORDER BY vasarolt_db DESC;
+
+-- 1. b, feladat --
+SELECT termek.nev, SUM(rendeles.db) AS osszes_vasarolt_db, termek.dbkeszlet AS keszlet FROM rendeles INNER JOIN termek ON rendeles.termek_id = termek.id WHERE termek.nev = 'Fogkefe' GROUP BY termek.id, termek.nev, termek.dbkeszlet;
+
+//a WHERE termek.nev = ' ', részbe adhatjuk meg hogy mire szűrünk.
+
+-- 2. feladat --
+SELECT vevo.nev, vevo.varos, SUM(rendeles.db * termek.ar) AS osszes_koltes FROM rendeles INNER JOIN vevo ON rendeles.vevo_id = vevo.id INNER JOIN termek ON rendeles.termek_id = termek.id WHERE vevo.varos = 'Miskolc' GROUP BY vevo.id, vevo.nev, vevo.varos ORDER BY osszes_koltes DESC LIMIT 1;
+
+-- 3. feladat --
+SELECT vevo.id, vevo.nev, COUNT(DISTINCT rendeles.termek_id) AS kulonbozo_termekek FROM rendeles INNER JOIN vevo ON rendeles.vevo_id = vevo.id GROUP BY vevo.id, vevo.nev HAVING COUNT(DISTINCT rendeles.termek_id) >= 3; 
+
+//megnézzük ki vett min 3 terméket majd a feladatban kiválasztjuk őt WHERE vevo.id=?
+
+SELECT termek.nev, rendeles.db, termek.cikkszam FROM rendeles INNER JOIN termek ON rendeles.termek_id = termek.id WHERE rendeles.vevo_id = 1 ORDER BY termek.cikkszam ASC;
+
